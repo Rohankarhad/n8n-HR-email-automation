@@ -1,0 +1,345 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4fe48218-262c-44d4-826e-cdeef418662f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE",
+          "mode": "list",
+          "cachedResultName": "Email Warkflow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2f62537d-e201-455e-8d32-6f635d5c7758",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8TCIyn5wHbFN9mgh",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        624,
+        208
+      ],
+      "id": "38aaafdd-37d7-43fe-98ac-5e5875c6419a"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "764546da-1586-423d-89de-4d0598baa04c",
+              "leftValue": "={{$json.status}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "f0d0b009-cb8c-42f4-b373-3f8329c81d43",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fromEmail": "karhadrohan@gmail.com",
+        "toEmail": "={{ $json.Email }}",
+        "subject": "Opportunity for {{$json.role}} Position at Suvarna Technosoft",
+        "emailFormat": "text",
+        "text": "=Hello {{ $json.Name }},\n\nWe came across your profile for the {{ $json.Role }} position.\n\nWe would like to connect with you regarding this opportunity at Suvarna Technosoft.\n\nPlease reply to this email if you are interested.\n\nRegards,\nHR Team\nSuvarna Technosoft",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -125.00500106811523
+      ],
+      "id": "601c1c0f-783c-4383-a04d-92184c492bdc",
+      "name": "Send email",
+      "webhookId": "3ec80258-a25b-4246-890e-9475bc4b0d55",
+      "notesInFlow": false,
+      "credentials": {
+        "smtp": {
+          "id": "jdZQIFQ33OtvxjAq",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE",
+          "mode": "list",
+          "cachedResultName": "Email Warkflow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pT4Hgkwk_B8ZPK7SHhTTe3zDbXPPrbXGMgTOedfW8tE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Sent",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Role",
+              "displayName": "Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1040,
+        -125.00500106811523
+      ],
+      "id": "e7476b7f-1a16-40be-82aa-03a1b028345d",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8TCIyn5wHbFN9mgh",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1248,
+        -128
+      ],
+      "id": "6551f472-8816-45be-ad44-a65332e4a3c1",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        80
+      ],
+      "id": "421f911c-c6d2-4747-a3bc-0dff593fa49c"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send email": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "f5f466b5-f4c1-4847-a11a-c41f59dee76a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "42037419c27ae40c72637466a5119d5ac8370e9e4fa3f85b6cbe8411913c8f97"
+  },
+  "id": "6Iusnl4DqZtMieo7mC9Ao",
+  "tags": []
+}
