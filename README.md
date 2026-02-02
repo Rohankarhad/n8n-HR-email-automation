@@ -58,6 +58,15 @@ The workflow ensures that emails are sent only once by tracking the status of ea
 This automation can be used by HR teams to send bulk personalized emails efficiently without sending duplicates.
 
 ---
+## 📸 Project Screenshots
+
+### n8n Workflow
+![Workflow](screenshots/workflow.png)
+
+### Google Sheet Data
+![Sheet](screenshots/sheet.png)
+
+---
 
 ## 👨‍💻 Author
 Rohan Karhad
